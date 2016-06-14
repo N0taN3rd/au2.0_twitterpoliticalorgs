@@ -9,7 +9,6 @@ if __name__ == '__main__':
     r = open('Index of _FEC_electronic_.html','r')
     dlSoup = BeautifulSoup(r, "lxml")
 
-
     for td in dlSoup.find_all('a',href=True):
         match = re.search('^[a-z.:/A-Z]+((\d{4})\d+)\.zip$',td['href'])
         link = td['href']
