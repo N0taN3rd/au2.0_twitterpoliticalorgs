@@ -17,7 +17,6 @@ if __name__ == '__main__':
 
     st = StanfordNERTagger(os.path.join(os.getcwd(),'stanfordModel/classifiers/english.all.3class.distsim.crf.ser.gz'),
                            os.path.join(os.getcwd(), 'stanfordModel/stanford-ner-3.6.0.jar'))
-
     # 'create_at', 'twitter_id', 'hashtags', 'twitter_url','person','organization'
     taggedFile = open('taggedClinton.csv','w+')
     headers = ['create_at', 'twitter_id', 'hashtags', 'twitter_url','person','organization']
