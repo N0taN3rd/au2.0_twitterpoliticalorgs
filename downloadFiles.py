@@ -5,11 +5,12 @@ from urllib import urlopen
 from io import BytesIO
 
 if __name__ == '__main__':
-    with open('Index of _FEC_electronic_.html','r') as r:
 
-        dlSoup = BeautifulSoup(r,"lxml")
+    r = open('Index of _FEC_electronic_.html','r')
+    dlSoup = BeautifulSoup(r, "lxml")
+
+
     for td in dlSoup.find_all('a',href=True):
-
         match = re.search('^[a-z.:/A-Z]+((\d{4})\d+)\.zip$',td['href'])
         link = td['href']
         if match:
