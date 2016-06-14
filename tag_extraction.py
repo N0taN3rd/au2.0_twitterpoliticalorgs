@@ -2,10 +2,10 @@ from nltk.tag import StanfordNERTagger
 from nltk.tokenize import TweetTokenizer
 import csv
 
-download = True
-if download:
-    import nltk
-    nltk.download()
+# download = True
+# if download:
+#     import nltk
+#     nltk.download()
 
 
 if __name__ == '__main__':
