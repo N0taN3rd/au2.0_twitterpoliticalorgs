@@ -403,9 +403,7 @@ if __name__ == '__main__':
         for kk, vv in v.items():
             dout[kk] = avg(vv)
 
-        m = max(dout.items())
-        print m
-        cGroupOut[k] = { m[0]:m[1]}
+        cGroupOut[k] = dout
 
 
 
@@ -451,10 +449,13 @@ if __name__ == '__main__':
     tOut = []
 
     for k,v in cGroupOut.items():
-        cOut.append({"created_at":k,"name":list(v.keys())[0],"value":v[list(v.keys())[0]]})
+        for kk in v.keys():
+
+            cOut.append({"created_at":k,"name":kk,"value":v[kk]})
 
     for k, v in tGroupOut.items():
-        tOut.append({"created_at": k, "name": list(v.keys())[0], "value": v[list(v.keys())[0]]})
+        for kk in v.keys():
+            tOut.append({"created_at": k, "name": kk, "value": v[kk]})
 
     cav.write(json.dumps(cOut, sort_keys=True, indent=2))
     tav.write(json.dumps(tOut, sort_keys=True, indent=2))
