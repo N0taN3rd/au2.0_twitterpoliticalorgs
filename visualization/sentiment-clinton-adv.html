@@ -1,0 +1,1087 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<script src="http://www.d3plus.org/js/d3.js"></script>
+<script src="http://www.d3plus.org/js/d3plus.js"></script>
+
+<div id="viz"></div>
+
+<script>
+  var data = [
+  {
+    "created_at": "2016-01-29", 
+    "name": "neu", 
+    "value": 0.827
+  }, 
+  {
+    "created_at": "2015-11-19", 
+    "name": "neu", 
+    "value": 0.780942857142857
+  }, 
+  {
+    "created_at": "2015-11-24", 
+    "name": "neu", 
+    "value": 0.7688181818181818
+  }, 
+  {
+    "created_at": "2015-11-25", 
+    "name": "neu", 
+    "value": 0.8583000000000001
+  }, 
+  {
+    "created_at": "2015-11-11", 
+    "name": "neu", 
+    "value": 0.865175438596491
+  }, 
+  {
+    "created_at": "2015-11-10", 
+    "name": "pos", 
+    "value": 0.662
+  }, 
+  {
+    "created_at": "2015-11-13", 
+    "name": "neu", 
+    "value": 0.8527142857142856
+  }, 
+  {
+    "created_at": "2015-11-12", 
+    "name": "neu", 
+    "value": 0.849
+  }, 
+  {
+    "created_at": "2015-11-15", 
+    "name": "neu", 
+    "value": 0.8524576271186441
+  }, 
+  {
+    "created_at": "2015-11-26", 
+    "name": "neu", 
+    "value": 0.7615000000000001
+  }, 
+  {
+    "created_at": "2015-11-17", 
+    "name": "neu", 
+    "value": 0.8523999999999999
+  }, 
+  {
+    "created_at": "2015-11-16", 
+    "name": "neu", 
+    "value": 0.8122
+  }, 
+  {
+    "created_at": "2016-01-04", 
+    "name": "neu", 
+    "value": 0.8329999999999999
+  }, 
+  {
+    "created_at": "2016-01-05", 
+    "name": "neu", 
+    "value": 0.8035384615384615
+  }, 
+  {
+    "created_at": "2016-01-06", 
+    "name": "neu", 
+    "value": 0.8113571428571429
+  }, 
+  {
+    "created_at": "2016-01-07", 
+    "name": "neu", 
+    "value": 0.8560476190476191
+  }, 
+  {
+    "created_at": "2016-01-01", 
+    "name": "pos", 
+    "value": 0.571
+  }, 
+  {
+    "created_at": "2016-01-02", 
+    "name": "neu", 
+    "value": 0.7048571428571428
+  }, 
+  {
+    "created_at": "2016-01-03", 
+    "name": "neu", 
+    "value": 0.767875
+  }, 
+  {
+    "created_at": "2015-11-20", 
+    "name": "neu", 
+    "value": 0.8174615384615385
+  }, 
+  {
+    "created_at": "2016-01-08", 
+    "name": "neu", 
+    "value": 0.8260833333333332
+  }, 
+  {
+    "created_at": "2016-01-09", 
+    "name": "neu", 
+    "value": 0.8645555555555555
+  }, 
+  {
+    "created_at": "2015-11-21", 
+    "name": "neu", 
+    "value": 0.8305555555555555
+  }, 
+  {
+    "created_at": "2015-12-21", 
+    "name": "neu", 
+    "value": 0.7897272727272728
+  }, 
+  {
+    "created_at": "2015-12-20", 
+    "name": "pos", 
+    "value": 0.659
+  }, 
+  {
+    "created_at": "2015-12-23", 
+    "name": "pos", 
+    "value": 0.571
+  }, 
+  {
+    "created_at": "2015-12-22", 
+    "name": "neu", 
+    "value": 0.7593750000000001
+  }, 
+  {
+    "created_at": "2015-12-25", 
+    "name": "pos", 
+    "value": 0.655
+  }, 
+  {
+    "created_at": "2015-12-24", 
+    "name": "pos", 
+    "value": 0.527
+  }, 
+  {
+    "created_at": "2016-03-08", 
+    "name": "neu", 
+    "value": 0.8963571428571429
+  }, 
+  {
+    "created_at": "2016-03-09", 
+    "name": "neu", 
+    "value": 0.7821578947368423
+  }, 
+  {
+    "created_at": "2016-03-06", 
+    "name": "neu", 
+    "value": 0.7999285714285715
+  }, 
+  {
+    "created_at": "2016-03-07", 
+    "name": "neu", 
+    "value": 0.7743157894736843
+  }, 
+  {
+    "created_at": "2016-03-04", 
+    "name": "neu", 
+    "value": 0.8262413793103448
+  }, 
+  {
+    "created_at": "2016-03-05", 
+    "name": "neu", 
+    "value": 0.8943333333333333
+  }, 
+  {
+    "created_at": "2016-03-02", 
+    "name": "neu", 
+    "value": 0.8003103448275861
+  }, 
+  {
+    "created_at": "2016-03-03", 
+    "name": "neu", 
+    "value": 0.7876666666666666
+  }, 
+  {
+    "created_at": "2016-03-01", 
+    "name": "pos", 
+    "value": 0.565
+  }, 
+  {
+    "created_at": "2015-11-23", 
+    "name": "neu", 
+    "value": 0.7500000000000001
+  }, 
+  {
+    "created_at": "2016-02-15", 
+    "name": "neu", 
+    "value": 0.8505384615384616
+  }, 
+  {
+    "created_at": "2016-01-19", 
+    "name": "neu", 
+    "value": 0.7710588235294117
+  }, 
+  {
+    "created_at": "2016-01-18", 
+    "name": "neu", 
+    "value": 0.8052444444444445
+  }, 
+  {
+    "created_at": "2015-11-28", 
+    "name": "neu", 
+    "value": 0.8314
+  }, 
+  {
+    "created_at": "2015-11-29", 
+    "name": "neu", 
+    "value": 0.7113333333333333
+  }, 
+  {
+    "created_at": "2016-03-29", 
+    "name": "pos", 
+    "value": 0.588
+  }, 
+  {
+    "created_at": "2016-01-13", 
+    "name": "neu", 
+    "value": 0.806222222222222
+  }, 
+  {
+    "created_at": "2016-01-12", 
+    "name": "neu", 
+    "value": 0.7930384615384614
+  }, 
+  {
+    "created_at": "2016-01-11", 
+    "name": "neu", 
+    "value": 0.8386153846153849
+  }, 
+  {
+    "created_at": "2016-01-10", 
+    "name": "pos", 
+    "value": 0.52
+  }, 
+  {
+    "created_at": "2016-01-17", 
+    "name": "neu", 
+    "value": 0.7607999999999999
+  }, 
+  {
+    "created_at": "2016-01-16", 
+    "name": "neu", 
+    "value": 0.8446250000000001
+  }, 
+  {
+    "created_at": "2015-11-22", 
+    "name": "neu", 
+    "value": 0.8366
+  }, 
+  {
+    "created_at": "2016-01-14", 
+    "name": "neu", 
+    "value": 0.83875
+  }, 
+  {
+    "created_at": "2015-11-18", 
+    "name": "neu", 
+    "value": 0.7974545454545455
+  }, 
+  {
+    "created_at": "2015-11-14", 
+    "name": "neu", 
+    "value": 0.746
+  }, 
+  {
+    "created_at": "2015-12-14", 
+    "name": "neu", 
+    "value": 0.866
+  }, 
+  {
+    "created_at": "2015-12-15", 
+    "name": "neu", 
+    "value": 0.8104814814814815
+  }, 
+  {
+    "created_at": "2015-12-16", 
+    "name": "neu", 
+    "value": 0.8309411764705883
+  }, 
+  {
+    "created_at": "2016-02-20", 
+    "name": "pos", 
+    "value": 0.5
+  }, 
+  {
+    "created_at": "2016-03-19", 
+    "name": "neu", 
+    "value": 0.831
+  }, 
+  {
+    "created_at": "2016-03-18", 
+    "name": "neu", 
+    "value": 0.812
+  }, 
+  {
+    "created_at": "2016-02-25", 
+    "name": "neu", 
+    "value": 0.779
+  }, 
+  {
+    "created_at": "2016-02-24", 
+    "name": "neu", 
+    "value": 0.7847777777777778
+  }, 
+  {
+    "created_at": "2016-03-15", 
+    "name": "neu", 
+    "value": 0.8096315789473684
+  }, 
+  {
+    "created_at": "2016-03-14", 
+    "name": "neu", 
+    "value": 0.7713571428571429
+  }, 
+  {
+    "created_at": "2016-03-17", 
+    "name": "neu", 
+    "value": 0.831
+  }, 
+  {
+    "created_at": "2016-03-16", 
+    "name": "pos", 
+    "value": 0.512
+  }, 
+  {
+    "created_at": "2016-03-11", 
+    "name": "neu", 
+    "value": 0.8532857142857141
+  }, 
+  {
+    "created_at": "2016-03-10", 
+    "name": "neu", 
+    "value": 0.859875
+  }, 
+  {
+    "created_at": "2016-03-13", 
+    "name": "neu", 
+    "value": 0.8410000000000001
+  }, 
+  {
+    "created_at": "2016-03-12", 
+    "name": "neu", 
+    "value": 0.7619
+  }, 
+  {
+    "created_at": "2016-02-21", 
+    "name": "pos", 
+    "value": 0.529
+  }, 
+  {
+    "created_at": "2015-11-30", 
+    "name": "pos", 
+    "value": 0.5
+  }, 
+  {
+    "created_at": "2016-02-23", 
+    "name": "neu", 
+    "value": 0.8487857142857143
+  }, 
+  {
+    "created_at": "2015-12-09", 
+    "name": "neu", 
+    "value": 0.7907692307692309
+  }, 
+  {
+    "created_at": "2015-12-08", 
+    "name": "neu", 
+    "value": 0.7522380952380954
+  }, 
+  {
+    "created_at": "2016-02-22", 
+    "name": "neu", 
+    "value": 0.7616428571428572
+  }, 
+  {
+    "created_at": "2015-12-03", 
+    "name": "neu", 
+    "value": 0.8220000000000001
+  }, 
+  {
+    "created_at": "2015-12-02", 
+    "name": "neu", 
+    "value": 0.7331000000000001
+  }, 
+  {
+    "created_at": "2015-12-01", 
+    "name": "neu", 
+    "value": 0.8608499999999999
+  }, 
+  {
+    "created_at": "2015-12-07", 
+    "name": "neu", 
+    "value": 0.7746999999999999
+  }, 
+  {
+    "created_at": "2015-12-06", 
+    "name": "pos", 
+    "value": 0.559
+  }, 
+  {
+    "created_at": "2015-12-05", 
+    "name": "pos", 
+    "value": 0.519
+  }, 
+  {
+    "created_at": "2015-12-04", 
+    "name": "neu", 
+    "value": 0.7490833333333334
+  }, 
+  {
+    "created_at": "2016-03-20", 
+    "name": "neu", 
+    "value": 1.0
+  }, 
+  {
+    "created_at": "2016-03-21", 
+    "name": "neu", 
+    "value": 0.835125
+  }, 
+  {
+    "created_at": "2016-03-22", 
+    "name": "neu", 
+    "value": 0.8206666666666668
+  }, 
+  {
+    "created_at": "2016-03-23", 
+    "name": "pos", 
+    "value": 0.504
+  }, 
+  {
+    "created_at": "2016-03-24", 
+    "name": "neu", 
+    "value": 0.8030909090909092
+  }, 
+  {
+    "created_at": "2016-03-25", 
+    "name": "neu", 
+    "value": 0.6853636363636363
+  }, 
+  {
+    "created_at": "2016-03-26", 
+    "name": "neu", 
+    "value": 0.8247500000000001
+  }, 
+  {
+    "created_at": "2016-03-27", 
+    "name": "pos", 
+    "value": 0.636
+  }, 
+  {
+    "created_at": "2016-03-28", 
+    "name": "pos", 
+    "value": 0.584
+  }, 
+  {
+    "created_at": "2015-12-10", 
+    "name": "neu", 
+    "value": 0.7915714285714285
+  }, 
+  {
+    "created_at": "2016-02-26", 
+    "name": "neu", 
+    "value": 0.811962962962963
+  }, 
+  {
+    "created_at": "2016-02-27", 
+    "name": "neu", 
+    "value": 0.8365652173913043
+  }, 
+  {
+    "created_at": "2015-12-12", 
+    "name": "neu", 
+    "value": 0.7971428571428572
+  }, 
+  {
+    "created_at": "2015-12-13", 
+    "name": "neu", 
+    "value": 0.7474000000000001
+  }, 
+  {
+    "created_at": "2016-05-26", 
+    "name": "neu", 
+    "value": 0.8820588235294117
+  }, 
+  {
+    "created_at": "2016-05-27", 
+    "name": "neu", 
+    "value": 0.7762500000000001
+  }, 
+  {
+    "created_at": "2016-05-24", 
+    "name": "neu", 
+    "value": 0.7587058823529412
+  }, 
+  {
+    "created_at": "2016-05-25", 
+    "name": "neu", 
+    "value": 0.7674
+  }, 
+  {
+    "created_at": "2016-05-22", 
+    "name": "neu", 
+    "value": 0.8718333333333333
+  }, 
+  {
+    "created_at": "2016-05-23", 
+    "name": "neu", 
+    "value": 0.7963846153846154
+  }, 
+  {
+    "created_at": "2016-05-20", 
+    "name": "neu", 
+    "value": 0.7430588235294119
+  }, 
+  {
+    "created_at": "2016-05-21", 
+    "name": "neu", 
+    "value": 0.80125
+  }, 
+  {
+    "created_at": "2016-04-30", 
+    "name": "neu", 
+    "value": 0.8132857142857143
+  }, 
+  {
+    "created_at": "2016-02-29", 
+    "name": "neu", 
+    "value": 0.7661666666666668
+  }, 
+  {
+    "created_at": "2016-05-28", 
+    "name": "neu", 
+    "value": 0.8383333333333334
+  }, 
+  {
+    "created_at": "2016-05-29", 
+    "name": "neu", 
+    "value": 0.6735
+  }, 
+  {
+    "created_at": "2016-02-28", 
+    "name": "neu", 
+    "value": 0.8018749999999999
+  }, 
+  {
+    "created_at": "2015-12-18", 
+    "name": "neu", 
+    "value": 0.92325
+  }, 
+  {
+    "created_at": "2015-12-19", 
+    "name": "neu", 
+    "value": 0.8712727272727272
+  }, 
+  {
+    "created_at": "2016-03-31", 
+    "name": "neu", 
+    "value": 0.8006
+  }, 
+  {
+    "created_at": "2016-03-30", 
+    "name": "neu", 
+    "value": 0.84164
+  }, 
+  {
+    "created_at": "2016-04-29", 
+    "name": "neu", 
+    "value": 0.8719999999999999
+  }, 
+  {
+    "created_at": "2016-04-28", 
+    "name": "neu", 
+    "value": 0.7801111111111111
+  }, 
+  {
+    "created_at": "2016-05-31", 
+    "name": "neu", 
+    "value": 0.7844166666666667
+  }, 
+  {
+    "created_at": "2016-05-30", 
+    "name": "pos", 
+    "value": 0.474
+  }, 
+  {
+    "created_at": "2016-04-21", 
+    "name": "neu", 
+    "value": 0.8294444444444445
+  }, 
+  {
+    "created_at": "2016-04-20", 
+    "name": "pos", 
+    "value": 0.536
+  }, 
+  {
+    "created_at": "2016-04-23", 
+    "name": "neu", 
+    "value": 0.784923076923077
+  }, 
+  {
+    "created_at": "2016-04-22", 
+    "name": "neu", 
+    "value": 0.8084666666666666
+  }, 
+  {
+    "created_at": "2016-04-25", 
+    "name": "neu", 
+    "value": 0.8243
+  }, 
+  {
+    "created_at": "2016-04-24", 
+    "name": "neu", 
+    "value": 0.8800000000000001
+  }, 
+  {
+    "created_at": "2016-04-27", 
+    "name": "pos", 
+    "value": 0.443
+  }, 
+  {
+    "created_at": "2016-04-26", 
+    "name": "neu", 
+    "value": 0.8634375000000001
+  }, 
+  {
+    "created_at": "2016-01-15", 
+    "name": "neu", 
+    "value": 0.8140512820512822
+  }, 
+  {
+    "created_at": "2016-05-08", 
+    "name": "neu", 
+    "value": 0.8533999999999999
+  }, 
+  {
+    "created_at": "2016-05-09", 
+    "name": "neu", 
+    "value": 0.8199999999999998
+  }, 
+  {
+    "created_at": "2015-12-27", 
+    "name": "neu", 
+    "value": 0.805
+  }, 
+  {
+    "created_at": "2016-05-01", 
+    "name": "neu", 
+    "value": 0.7781428571428571
+  }, 
+  {
+    "created_at": "2016-05-02", 
+    "name": "neu", 
+    "value": 0.7740555555555555
+  }, 
+  {
+    "created_at": "2015-12-26", 
+    "name": "neu", 
+    "value": 0.6895
+  }, 
+  {
+    "created_at": "2016-05-04", 
+    "name": "neu", 
+    "value": 0.8092352941176473
+  }, 
+  {
+    "created_at": "2016-05-05", 
+    "name": "neu", 
+    "value": 0.826
+  }, 
+  {
+    "created_at": "2016-05-06", 
+    "name": "neu", 
+    "value": 0.9293000000000001
+  }, 
+  {
+    "created_at": "2016-05-07", 
+    "name": "neu", 
+    "value": 0.897375
+  }, 
+  {
+    "created_at": "2015-12-29", 
+    "name": "neu", 
+    "value": 0.7419999999999999
+  }, 
+  {
+    "created_at": "2016-04-18", 
+    "name": "neu", 
+    "value": 0.8201875
+  }, 
+  {
+    "created_at": "2016-04-19", 
+    "name": "neu", 
+    "value": 0.9328235294117647
+  }, 
+  {
+    "created_at": "2015-12-28", 
+    "name": "neu", 
+    "value": 0.868
+  }, 
+  {
+    "created_at": "2016-04-14", 
+    "name": "neu", 
+    "value": 0.8431000000000001
+  }, 
+  {
+    "created_at": "2016-04-15", 
+    "name": "neu", 
+    "value": 0.8656481481481481
+  }, 
+  {
+    "created_at": "2016-04-16", 
+    "name": "neu", 
+    "value": 0.7994166666666667
+  }, 
+  {
+    "created_at": "2016-04-17", 
+    "name": "neu", 
+    "value": 0.8285555555555555
+  }, 
+  {
+    "created_at": "2016-04-10", 
+    "name": "pos", 
+    "value": 0.5515
+  }, 
+  {
+    "created_at": "2016-04-11", 
+    "name": "neu", 
+    "value": 0.7624444444444445
+  }, 
+  {
+    "created_at": "2016-04-12", 
+    "name": "neu", 
+    "value": 0.8650666666666668
+  }, 
+  {
+    "created_at": "2016-04-13", 
+    "name": "neu", 
+    "value": 0.831142857142857
+  }, 
+  {
+    "created_at": "2015-12-17", 
+    "name": "neu", 
+    "value": 0.7722307692307694
+  }, 
+  {
+    "created_at": "2016-05-19", 
+    "name": "neu", 
+    "value": 0.8490000000000001
+  }, 
+  {
+    "created_at": "2016-05-18", 
+    "name": "pos", 
+    "value": 0.506
+  }, 
+  {
+    "created_at": "2016-05-17", 
+    "name": "neu", 
+    "value": 0.8348181818181818
+  }, 
+  {
+    "created_at": "2016-05-16", 
+    "name": "neu", 
+    "value": 0.8078
+  }, 
+  {
+    "created_at": "2016-05-15", 
+    "name": "neu", 
+    "value": 0.9373333333333335
+  }, 
+  {
+    "created_at": "2016-05-14", 
+    "name": "neu", 
+    "value": 0.8328
+  }, 
+  {
+    "created_at": "2016-05-13", 
+    "name": "neu", 
+    "value": 0.8149090909090908
+  }, 
+  {
+    "created_at": "2016-05-12", 
+    "name": "pos", 
+    "value": 0.405
+  }, 
+  {
+    "created_at": "2016-05-11", 
+    "name": "neu", 
+    "value": 0.822923076923077
+  }, 
+  {
+    "created_at": "2016-05-10", 
+    "name": "neu", 
+    "value": 0.8386875
+  }, 
+  {
+    "created_at": "2016-04-03", 
+    "name": "neu", 
+    "value": 0.8777999999999999
+  }, 
+  {
+    "created_at": "2016-04-02", 
+    "name": "neu", 
+    "value": 0.8853333333333332
+  }, 
+  {
+    "created_at": "2016-04-01", 
+    "name": "neu", 
+    "value": 0.7583846153846154
+  }, 
+  {
+    "created_at": "2016-04-07", 
+    "name": "pos", 
+    "value": 0.592
+  }, 
+  {
+    "created_at": "2016-04-06", 
+    "name": "neu", 
+    "value": 0.8108695652173913
+  }, 
+  {
+    "created_at": "2016-04-05", 
+    "name": "neu", 
+    "value": 0.83005
+  }, 
+  {
+    "created_at": "2016-04-04", 
+    "name": "neu", 
+    "value": 0.7984615384615386
+  }, 
+  {
+    "created_at": "2016-04-09", 
+    "name": "neu", 
+    "value": 0.8645
+  }, 
+  {
+    "created_at": "2016-04-08", 
+    "name": "neu", 
+    "value": 0.8873333333333333
+  }, 
+  {
+    "created_at": "2016-01-22", 
+    "name": "neu", 
+    "value": 0.7881538461538461
+  }, 
+  {
+    "created_at": "2016-01-23", 
+    "name": "pos", 
+    "value": 0.516
+  }, 
+  {
+    "created_at": "2016-01-20", 
+    "name": "neu", 
+    "value": 0.807
+  }, 
+  {
+    "created_at": "2016-01-21", 
+    "name": "neu", 
+    "value": 0.7813999999999999
+  }, 
+  {
+    "created_at": "2016-01-26", 
+    "name": "neu", 
+    "value": 0.85504
+  }, 
+  {
+    "created_at": "2016-01-27", 
+    "name": "neu", 
+    "value": 0.8746666666666668
+  }, 
+  {
+    "created_at": "2016-01-24", 
+    "name": "neu", 
+    "value": 0.7723333333333332
+  }, 
+  {
+    "created_at": "2016-01-25", 
+    "name": "neu", 
+    "value": 0.8368666666666666
+  }, 
+  {
+    "created_at": "2016-06-05", 
+    "name": "neu", 
+    "value": 0.8324999999999999
+  }, 
+  {
+    "created_at": "2016-06-04", 
+    "name": "neu", 
+    "value": 0.8639374999999999
+  }, 
+  {
+    "created_at": "2016-06-07", 
+    "name": "neu", 
+    "value": 0.828
+  }, 
+  {
+    "created_at": "2016-06-06", 
+    "name": "neu", 
+    "value": 0.8051000000000001
+  }, 
+  {
+    "created_at": "2016-06-01", 
+    "name": "neu", 
+    "value": 0.82135
+  }, 
+  {
+    "created_at": "2016-06-03", 
+    "name": "neu", 
+    "value": 0.7946842105263159
+  }, 
+  {
+    "created_at": "2016-06-02", 
+    "name": "neu", 
+    "value": 0.8430476190476189
+  }, 
+  {
+    "created_at": "2016-02-18", 
+    "name": "neu", 
+    "value": 0.8185882352941176
+  }, 
+  {
+    "created_at": "2016-02-19", 
+    "name": "neu", 
+    "value": 0.7983333333333333
+  }, 
+  {
+    "created_at": "2016-02-12", 
+    "name": "neu", 
+    "value": 0.8343529411764705
+  }, 
+  {
+    "created_at": "2016-02-13", 
+    "name": "neu", 
+    "value": 0.8740714285714286
+  }, 
+  {
+    "created_at": "2016-02-10", 
+    "name": "neu", 
+    "value": 0.7905769230769231
+  }, 
+  {
+    "created_at": "2016-02-11", 
+    "name": "neu", 
+    "value": 0.8283749999999999
+  }, 
+  {
+    "created_at": "2016-02-16", 
+    "name": "neu", 
+    "value": 0.8523333333333335
+  }, 
+  {
+    "created_at": "2016-02-17", 
+    "name": "neu", 
+    "value": 0.8492666666666666
+  }, 
+  {
+    "created_at": "2016-02-14", 
+    "name": "pos", 
+    "value": 0.571
+  }, 
+  {
+    "created_at": "2015-12-11", 
+    "name": "neu", 
+    "value": 0.7995833333333334
+  }, 
+  {
+    "created_at": "2015-11-27", 
+    "name": "neu", 
+    "value": 1.0
+  }, 
+  {
+    "created_at": "2016-05-03", 
+    "name": "pos", 
+    "value": 0.559
+  }, 
+  {
+    "created_at": "2015-11-09", 
+    "name": "neu", 
+    "value": 0.821375
+  }, 
+  {
+    "created_at": "2016-06-08", 
+    "name": "pos", 
+    "value": 0.598
+  }, 
+  {
+    "created_at": "2016-01-31", 
+    "name": "neu", 
+    "value": 0.8895
+  }, 
+  {
+    "created_at": "2016-01-30", 
+    "name": "pos", 
+    "value": 0.6295
+  }, 
+  {
+    "created_at": "2016-02-04", 
+    "name": "neu", 
+    "value": 0.8274285714285714
+  }, 
+  {
+    "created_at": "2016-02-09", 
+    "name": "neu", 
+    "value": 0.8766216216216215
+  }, 
+  {
+    "created_at": "2016-02-08", 
+    "name": "neu", 
+    "value": 0.81325
+  }, 
+  {
+    "created_at": "2015-12-30", 
+    "name": "neu", 
+    "value": 0.8364285714285715
+  }, 
+  {
+    "created_at": "2015-12-31", 
+    "name": "neu", 
+    "value": 0.8548888888888889
+  }, 
+  {
+    "created_at": "2016-02-01", 
+    "name": "neu", 
+    "value": 0.876138888888889
+  }, 
+  {
+    "created_at": "2016-02-03", 
+    "name": "pos", 
+    "value": 0.558
+  }, 
+  {
+    "created_at": "2016-02-02", 
+    "name": "neu", 
+    "value": 0.8652972972972971
+  }, 
+  {
+    "created_at": "2016-02-05", 
+    "name": "neu", 
+    "value": 0.8244666666666665
+  }, 
+  {
+    "created_at": "2016-01-28", 
+    "name": "neu", 
+    "value": 0.7506666666666667
+  }, 
+  {
+    "created_at": "2016-02-07", 
+    "name": "pos", 
+    "value": 0.522
+  }, 
+  {
+    "created_at": "2016-02-06", 
+    "name": "neu", 
+    "value": 0.8415757575757578
+  }
+]  
+  
+  var visualization = d3plus.viz()
+    .container("#viz")
+    .data(data)
+    .type("bar")
+    .id("name")
+    .y({"stacked": true, "value": "value"})
+    .x("created_at")
+    .time({"value": "created_at", "format": "%Y-%m-%d"})
+    .draw()
+</script>
