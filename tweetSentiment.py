@@ -398,10 +398,16 @@ if __name__ == '__main__':
         dout = {
 
         }
-        for kk,vv in v.items():
+        total = 0
+
+        for kk, vv in v.items():
             dout[kk] = avg(vv)
 
-        cGroupOut[k] = dout
+        m = max(dout.items())
+        print m
+        cGroupOut[k] = { m[0]:m[1]}
+
+
 
     tGroup = {}
     for tScore in tScores:
@@ -431,6 +437,9 @@ if __name__ == '__main__':
         dout = {
 
         }
+        total = 0
+        for it in v.values():
+            total += len(it)
         for kk, vv in v.items():
             dout[kk] = avg(vv)
         tGroupOut[k] = dout
@@ -438,8 +447,20 @@ if __name__ == '__main__':
     cav = open('vaderClintonAv.json', 'w+')
     tav = open('vaderTrumpAv.json', 'w+')
 
-    cav.write(json.dumps(cGroupOut, sort_keys=True, indent=2))
-    tav.write(json.dumps(tGroupOut, sort_keys=True, indent=2))
+    cOut = []
+    tOut = []
+
+    for k,v in cGroupOut.items():
+        cOut.append({"created_at":k,"name":list(v.keys())[0],"value":v[list(v.keys())[0]]})
+
+    for k, v in tGroupOut.items():
+        tOut.append({"created_at": k, "name": list(v.keys())[0], "value": v[list(v.keys())[0]]})
+
+    cav.write(json.dumps(cOut, sort_keys=True, indent=2))
+    tav.write(json.dumps(tOut, sort_keys=True, indent=2))
+
+    cav.close()
+    tav.close()
 
 
 
