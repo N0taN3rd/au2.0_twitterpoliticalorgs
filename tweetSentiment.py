@@ -128,6 +128,23 @@ if __name__ == '__main__':
 
         onlyWords = re.compile('^[a-zA-Z]+$')
         labeledTweets = []
+        for row in csv.DictReader(open('datafiles/trump.csv')):
+            text = row['text']
+            features = []
+            for token in tknzr.tokenize(text):
+                if onlyWords.match(token) is not None:
+                    features.append(token.lower())
+            print row['created_at']
+            tweets.append({
+                "created_at": row['created_at'],
+                "text": text,
+                "classification": classifier.classify(extract_features(features))
+            })
+        classification = open('trumpClassified.json','w+')
+        classification.write(json.dumps(tweets, indent=2))
+        classification.close()
+
+        labeledTweets = []
         for row in csv.DictReader(open('datafiles/clinton.csv')):
             text = row['text']
             features = []
@@ -140,7 +157,7 @@ if __name__ == '__main__':
                 "text": text,
                 "classification": classifier.classify(extract_features(features))
             })
-        classification = open('clintonClassified.json','w+')
+        classification = open('trumpClassified.json', 'w+')
         classification.write(json.dumps(tweets, indent=2))
         classification.close()
 
