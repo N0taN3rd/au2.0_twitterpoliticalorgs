@@ -1,6 +1,6 @@
 import csv
 import json
-
+import datetime
 import nltk
 import nltk.classify.util as classUtil
 from nltk.classify import NaiveBayesClassifier
@@ -8,11 +8,12 @@ from nltk.corpus import movie_reviews, twitter_samples, comparative_sentences
 from nltk.tokenize import TweetTokenizer, WordPunctTokenizer
 import re
 import pickle
-import  os
-
-
+import os
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import math
 
 wordFeatures = None
+
 
 def word_feats(words):
     return dict([(word, True) for word in words])
@@ -47,7 +48,6 @@ def extract_features(document):
     return features
 
 
-
 def buildWordFeatures():
     tknzr = TweetTokenizer(strip_handles=True)
     onlyWords = re.compile('^[a-zA-Z]+$')
@@ -68,8 +68,8 @@ def buildWordFeatures():
         labeledTweets.append((tokens, "positive"))
 
     wordFeatures = get_word_features(get_words_in_tweets(labeledTweets))
-    fout = open('wordFeatures.json',"w+")
-    fout.write(json.dumps(wordFeatures,indent=2))
+    fout = open('wordFeatures.json', "w+")
+    fout.write(json.dumps(wordFeatures, indent=2))
     fout.close()
 
 
@@ -266,9 +266,8 @@ def trainMovieTwitter():
     pickle.dump(classifier, f)
     f.close()
 
-if __name__ == '__main__':
-    # buildWordFeatures()
-    # twitterClass()
+
+def bothTwitterAndMovie():
     tknzr = TweetTokenizer(strip_handles=True)
     onlyWords = re.compile('^[a-zA-Z]+$')
 
@@ -315,31 +314,167 @@ if __name__ == '__main__':
     classification.close()
 
 
-        # print classifier.labels()
-    #
-    #
-    # print type(classifier)
+def vader():
+    tweets = []
+    sid = SentimentIntensityAnalyzer()
+    for row in csv.DictReader(open('datafiles/trump.csv')):
+        text = row['text']
+        features = []
+        # for token in tknzr.tokenize(text):
+        #     if onlyWords.match(token) is not None:
+        #         features.append(token.lower())
+        # print row['created_at']
+        ss = sid.polarity_scores(text)
+        tweets.append({
+            "created_at": row['created_at'],
+            "text": text,
+            "classification": ss
+        })
+    classification = open('trumpClassifiedVader.json', 'w+')
+    classification.write(json.dumps(tweets, indent=2))
+    classification.close()
+    tweets = []
+    labeledTweets = []
+    for row in csv.DictReader(open('datafiles/clinton.csv')):
+        text = row['text']
+        features = []
+        # for token in tknzr.tokenize(text):
+        #     if onlyWords.match(token) is not None:
+        #         features.append(token.lower())
+        # print row['created_at']
+        ss = sid.polarity_scores(text)
+        tweets.append({
+            "created_at": row['created_at'],
+            "text": text,
+            "classification": ss
+        })
+    classification = open('clintonClassifiedVader.json', 'w+')
+    classification.write(json.dumps(tweets, indent=2))
+    classification.close()
 
-    # print wordFeatures
 
-    # for it in twitter_samples.docs():
-    #     print it
-    # negids = movie_reviews.fileids('neg')
-    #
-    # posids = movie_reviews.fileids('pos')
-    # #
-    # negfeats = [(word_feats(movie_reviews.words(fileids=[f])), 'neg') for f in negids]
-    # posfeats = [(word_feats(movie_reviews.words(fileids=[f])), 'pos') for f in posids]
-    #
-    # print negfeats
-    #
-    # negcutoff = len(negfeats) * 3 / 4
-    # poscutoff = len(posfeats) * 3 / 4
-    #
-    # trainfeats = negfeats[:negcutoff] + posfeats[:poscutoff]
-    # testfeats = negfeats[negcutoff:] + posfeats[poscutoff:]
-    # print 'train on %d instances, test on %d instances' % (len(trainfeats), len(testfeats))
-    #
-    # classifier = NaiveBayesClassifier.train(trainfeats)
-    # print 'accuracy:', nltk.classify.util.accuracy(classifier, testfeats)
-    # classifier.show_most_informative_features()
+def avg(list):
+    sum = 0
+    for elm in list:
+        sum += elm
+    return sum / (len(list) * 1.0)
+
+
+if __name__ == '__main__':
+
+    cvader = open('clintonClassifiedVader.json', "r")
+    tvader = open('trumpClassifiedVader.json', "r")
+
+    cScores = json.load(cvader)
+    tScores = json.load(tvader)
+
+    cvader.close()
+    tvader.close()
+    cGroup = {}
+    for cScore in cScores:
+        time = cScore['created_at'].split(' ')[0]
+        clazz = cScore["classification"]
+        neg = clazz['neg']
+        pos = clazz['pos']
+        neu = clazz['neu']
+        data = cGroup.get(time, {})
+        theMax = max(neg, max(pos, neu))
+        if theMax == neg:
+            val = data.get('neg', [])
+            val.append(neg)
+            data['neg'] = val
+        elif theMax == pos:
+            val = data.get('pos', [])
+            val.append(pos)
+            data['pos'] = val
+        else:
+            val = data.get('neu', [])
+            val.append(neu)
+            data['neu'] = val
+        cGroup[time] = data
+
+    cGroupOut = {}
+    for k, v in cGroup.items():
+        dout = {
+
+        }
+        for kk,vv in v.items():
+            dout[kk] = avg(vv)
+
+        cGroupOut[k] = dout
+
+    tGroup = {}
+    for tScore in tScores:
+        time = tScore['created_at'].split(' ')[0]
+        clazz = tScore["classification"]
+        neg = clazz['neg']
+        pos = clazz['pos']
+        neu = clazz['neu']
+        data = cGroup.get(time, {})
+        theMax = max(neg, max(pos, neu))
+        if theMax == neg:
+            val = data.get('neg', [])
+            val.append(neg)
+            data['neg'] = val
+        elif theMax == pos:
+            val = data.get('pos', [])
+            val.append(pos)
+            data['pos'] = val
+        else:
+            val = data.get('neu', [])
+            val.append(neu)
+            data['neu'] = val
+        tGroup[time] = data
+
+    tGroupOut = {}
+    for k, v in tGroup.items():
+        dout = {
+
+        }
+        for kk, vv in v.items():
+            dout[kk] = avg(vv)
+        tGroupOut[k] = dout
+
+    cav = open('vaderClintonAv.json', 'w+')
+    tav = open('vaderTrumpAv.json', 'w+')
+
+    cav.write(json.dumps(cGroupOut, sort_keys=True, indent=2))
+    tav.write(json.dumps(tGroupOut, sort_keys=True, indent=2))
+
+
+
+
+
+# buildWordFeatures()
+# twitterClass()
+
+# nltk.download()
+
+# print classifier.labels()
+#
+#
+# print type(classifier)
+
+# print wordFeatures
+
+# for it in twitter_samples.docs():
+#     print it
+# negids = movie_reviews.fileids('neg')
+#
+# posids = movie_reviews.fileids('pos')
+# #
+# negfeats = [(word_feats(movie_reviews.words(fileids=[f])), 'neg') for f in negids]
+# posfeats = [(word_feats(movie_reviews.words(fileids=[f])), 'pos') for f in posids]
+#
+# print negfeats
+#
+# negcutoff = len(negfeats) * 3 / 4
+# poscutoff = len(posfeats) * 3 / 4
+#
+# trainfeats = negfeats[:negcutoff] + posfeats[:poscutoff]
+# testfeats = negfeats[negcutoff:] + posfeats[poscutoff:]
+# print 'train on %d instances, test on %d instances' % (len(trainfeats), len(testfeats))
+#
+# classifier = NaiveBayesClassifier.train(trainfeats)
+# print 'accuracy:', nltk.classify.util.accuracy(classifier, testfeats)
+# classifier.show_most_informative_features()
