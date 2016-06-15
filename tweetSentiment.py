@@ -73,14 +73,12 @@ def buildWordFeatures():
     fout.close()
 
 
-
-if __name__ == '__main__':
-    # buildWordFeatures()
-
+def twitterClass():
+    global wordFeatures
     tknzr = TweetTokenizer(strip_handles=True)
     onlyWords = re.compile('^[a-zA-Z]+$')
     # print
-    if not os.path.exists(os.path.join(os.getcwd(),'semtiment_classifier.pickle')):
+    if not os.path.exists(os.path.join(os.getcwd(), 'semtiment_classifier.pickle')):
         print twitter_samples.fileids()
         # print movie_reviews.fileids()
         # print
@@ -95,7 +93,7 @@ if __name__ == '__main__':
                 if onlyWords.match(token) is not None:
                     tokens.append(token.lower())
             labeledTweets.append((tokens, "negative"))
-                    # print [token for token in tknzr.tokenize(it['text']) if onlyWords.match(token) is not None]
+            # print [token for token in tknzr.tokenize(it['text']) if onlyWords.match(token) is not None]
 
         for it in twitter_samples.docs('positive_tweets.json'):
             tokens = []
@@ -121,7 +119,7 @@ if __name__ == '__main__':
         fin.close()
         print wordFeatures
         f = open('semtiment_classifier.pickle', 'rb')
-        classifier = pickle.load(f) # type: nltk.classify.naivebayes.NaiveBayesClassifier
+        classifier = pickle.load(f)  # type: nltk.classify.naivebayes.NaiveBayesClassifier
         f.close()
         # text,created_at
         tweets = []
@@ -140,10 +138,10 @@ if __name__ == '__main__':
                 "text": text,
                 "classification": classifier.classify(extract_features(features))
             })
-        classification = open('trumpClassified.json','w+')
+        classification = open('trumpClassified.json', 'w+')
         classification.write(json.dumps(tweets, indent=2))
         classification.close()
-
+        tweets = []
         labeledTweets = []
         for row in csv.DictReader(open('datafiles/clinton.csv')):
             text = row['text']
@@ -157,9 +155,75 @@ if __name__ == '__main__':
                 "text": text,
                 "classification": classifier.classify(extract_features(features))
             })
-        classification = open('trumpClassified.json', 'w+')
+        classification = open('clintonClassified.json', 'w+')
         classification.write(json.dumps(tweets, indent=2))
         classification.close()
+
+
+def trainMovies():
+    negids = movie_reviews.fileids('neg')
+    print type(negids), negids
+    posids = movie_reviews.fileids('pos')
+
+    negfeats = [(word_feats(movie_reviews.words(fileids=[f])), 'neg') for f in negids]
+    posfeats = [(word_feats(movie_reviews.words(fileids=[f])), 'pos') for f in posids]
+
+    train = negfeats + posfeats
+
+    classifier = NaiveBayesClassifier.train(train)
+
+    f = open('movie_semtiment_classifier.pickle', 'wb')
+    pickle.dump(classifier, f)
+    f.close()
+
+if __name__ == '__main__':
+    # buildWordFeatures()
+    # twitterClass()
+    tknzr = TweetTokenizer(strip_handles=True)
+    onlyWords = re.compile('^[a-zA-Z]+$')
+
+    f = open('movie_semtiment_classifier.pickle', 'rb')
+    classifier = pickle.load(f)  # type: nltk.classify.naivebayes.NaiveBayesClassifier
+    f.close()
+    # text,created_at
+    tweets = []
+
+    onlyWords = re.compile('^[a-zA-Z]+$')
+    labeledTweets = []
+    for row in csv.DictReader(open('datafiles/trump.csv')):
+        text = row['text']
+        features = []
+        for token in tknzr.tokenize(text):
+            if onlyWords.match(token) is not None:
+                features.append(token.lower())
+        print row['created_at']
+        tweets.append({
+            "created_at": row['created_at'],
+            "text": text,
+            "classification": classifier.classify(word_feats(features))
+        })
+    classification = open('trumpClassifiedm.json', 'w+')
+    classification.write(json.dumps(tweets, indent=2))
+    classification.close()
+
+    tweets = []
+    labeledTweets = []
+    for row in csv.DictReader(open('datafiles/clinton.csv')):
+        text = row['text']
+        features = []
+        for token in tknzr.tokenize(text):
+            if onlyWords.match(token) is not None:
+                features.append(token.lower())
+        print row['created_at']
+        tweets.append({
+            "created_at": row['created_at'],
+            "text": text,
+            "classification": classifier.classify(word_feats(features))
+        })
+    classification = open('clintonClassifiedm.json', 'w+')
+    classification.write(json.dumps(tweets, indent=2))
+    classification.close()
+
 
         # print classifier.labels()
     #
